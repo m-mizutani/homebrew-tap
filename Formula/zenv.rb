@@ -4,6 +4,11 @@ class Zenv < Formula
   version "2.5.0"
   license "Apache-2.0"
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   on_macos do
     on_arm do
       url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-darwin-arm64.tar.gz"
