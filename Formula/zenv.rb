@@ -1,7 +1,7 @@
 class Zenv < Formula
   desc "Enhanced env command to manage environment variables in CLI"
   homepage "https://github.com/m-mizutani/zenv"
-  version "2.5.0"
+  version "2.5.1"
   license "Apache-2.0"
 
   livecheck do
@@ -12,22 +12,22 @@ class Zenv < Formula
   on_macos do
     on_arm do
       url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-darwin-arm64.tar.gz"
-      sha256 "227b0d6f3a1f11a72d60ab90013f38f501897c3255377a914a118953e37389a9"
+      sha256 "d747605541f33305d942a0824a1222351004c4a9ec94893b59178999d7db8608"
     end
     on_intel do
       url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-darwin-amd64.tar.gz"
-      sha256 "3363be33e08f5a598d62c36194345218e0d2e5608d50826565ff5b1ed0adf60d"
+      sha256 "cf97b38daa0abcf3dae70c8568b996e50f8182ed6f9023d8d993991ae608e74d"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-linux-arm64.tar.gz"
-      sha256 "ca766ea1d9d41426563b86c7aeab39bcbf5d772a57823fb7a093375f0ceb2278"
+      sha256 "fef2b4f5862e9b1426f91d95c5907b1cefe6e29895473c2869d22687fed16373"
     end
     on_intel do
       url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-linux-amd64.tar.gz"
-      sha256 "b316d86a78dc8dce721cb0874634ffa48e3feafea0f6e9dddccb7d89d0c8e752"
+      sha256 "a927edbcb24179860e995c1615fcb26c64dfc925c6d69b70c6c9edc945665319"
     end
   end
 
