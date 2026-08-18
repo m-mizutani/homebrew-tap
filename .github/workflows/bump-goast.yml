@@ -51,9 +51,11 @@ jobs:
             exit 0
           fi
 
-          echo "changed=true" >> "$GITHUB_OUTPUT"
-          echo "version=$latest_version" >> "$GITHUB_OUTPUT"
-          echo "tag=$latest_tag" >> "$GITHUB_OUTPUT"
+          {
+            echo "changed=true"
+            echo "version=$latest_version"
+            echo "tag=$latest_tag"
+          } >> "$GITHUB_OUTPUT"
 
   bump:
     needs: check
