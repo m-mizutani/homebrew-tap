@@ -35,7 +35,14 @@ jobs:
 
           latest_tag=$(gh release view --repo "$repo" --json tagName --jq .tagName)
           latest_version=${latest_tag#v}
-          current_version=$(sed -n 's/^  version "\(.*\)"$/\1/p' "$formula")
+          # The formula carries no `version` field: brew audit rejects it as
+          # redundant with the version scanned from the release URL.
+          current_version=$(sed -n 's|.*/releases/download/v\([^/]*\)/.*|\1|p' "$formula" | head -n 1)
+
+          if [ -z "$current_version" ]; then
+            echo "Could not read the current version from $formula" >&2
+            exit 1
+          fi
 
           echo "current=$current_version latest=$latest_version"
           if [ "$current_version" = "$latest_version" ]; then
@@ -81,7 +88,6 @@ jobs:
           class Zenv < Formula
             desc "Enhanced env command to manage environment variables in CLI"
             homepage "https://github.com/m-mizutani/zenv"
-            version "${latest_version}"
             license "Apache-2.0"
 
             livecheck do
@@ -91,22 +97,22 @@ jobs:
 
             on_macos do
               on_arm do
-                url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-darwin-arm64.tar.gz"
+                url "https://github.com/m-mizutani/zenv/releases/download/v${latest_version}/zenv-v${latest_version}-darwin-arm64.tar.gz"
                 sha256 "${sha[darwin-arm64]}"
               end
               on_intel do
-                url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-darwin-amd64.tar.gz"
+                url "https://github.com/m-mizutani/zenv/releases/download/v${latest_version}/zenv-v${latest_version}-darwin-amd64.tar.gz"
                 sha256 "${sha[darwin-amd64]}"
               end
             end
 
             on_linux do
               on_arm do
-                url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-linux-arm64.tar.gz"
+                url "https://github.com/m-mizutani/zenv/releases/download/v${latest_version}/zenv-v${latest_version}-linux-arm64.tar.gz"
                 sha256 "${sha[linux-arm64]}"
               end
               on_intel do
-                url "https://github.com/m-mizutani/zenv/releases/download/v#{version}/zenv-v#{version}-linux-amd64.tar.gz"
+                url "https://github.com/m-mizutani/zenv/releases/download/v${latest_version}/zenv-v${latest_version}-linux-amd64.tar.gz"
                 sha256 "${sha[linux-amd64]}"
               end
             end
@@ -132,7 +138,7 @@ jobs:
           body: |
             Automated update of `zenv` to ${{ needs.check.outputs.version }}.
 
-            Updated `version` and per-platform `sha256` from the upstream
-            release assets at
+            Updated the release URLs and per-platform `sha256` from the
+            upstream release assets at
             https://github.com/m-mizutani/zenv/releases/tag/v${{ needs.check.outputs.version }}.
           delete-branch: true
